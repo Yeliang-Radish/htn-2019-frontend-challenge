@@ -1,5 +1,7 @@
 # Hack the North 2019 Frontend Coding Challenge
 
+Holy Hell it took me a while to get react-router-dom working
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

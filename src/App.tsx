@@ -6,9 +6,9 @@ import Dashboard from "./components/dashboard";
 class App extends Component {
   render() {
     return (
-      <div>
+      <Fragment>
         <Dashboard />
-      </div>
+      </Fragment>
     );
   }
 }

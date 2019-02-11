@@ -1,18 +1,14 @@
 import axios from "axios";
 import { ApiResponse } from "./question_interfaces";
 
-const getQuestions = () => {
+const getQuestions = async () => {
   let jsonURL = "https://hackthenorth.com/fe-questions.json";
-  axios
-    .get(jsonURL)
-    .then(response => {
-      let data: ApiResponse = response.data;
-      console.log(response);
-      return data;
-    })
-    .catch(e => {
-      console.log("Bollocks the website aint right boss");
-    });
+  try {
+    let response = await axios.get(jsonURL);
+    return response.data;
+  } catch (e) {
+    console.log("This aint it boss. It don't work who you lookin at");
+  }
 };
 
 export default getQuestions;
