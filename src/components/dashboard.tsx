@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import getQuestions from "../utils/question_getter";
-import { ApiResponse } from "../utils/question_interfaces";
+import { ApiResponse, QuestionSet } from "../utils/question_interfaces";
 import { HashRouter, NavLink, Route } from "react-router-dom";
-import questionForm from "./question_form";
+import QuestionForm from "./question_form";
 
 class Dashboard extends Component {
   state = {
@@ -19,24 +19,44 @@ class Dashboard extends Component {
     });
   }
 
+  dashInfo = () => (
+    <div>
+      {this.state.numQuestionSets !== 0 ? (
+        this.state.questionSets.map((qset: any) => (
+          <div className="col" key={qset.id}>
+            <NavLink to={`/question_set/${qset.id}`}>{qset.id}</NavLink>
+          </div>
+        ))
+      ) : (
+        <p>Loading...</p>
+      )}
+    </div>
+  );
+
+  renderQuestionPage = (props: any) => {
+    // this.state.questionSets.forEach((set: QuestionSet) => {
+    //   if (set.id === props.match.params.setId) {
+    //     console.log("boy");
+    //     return <QuestionForm />;
+    //   }
+    // });
+    for (let i = 0; i < this.state.numQuestionSets; i++) {
+      let set: QuestionSet = this.state.questionSets[i];
+      if (set.id === props.match.params.setId) {
+        return <QuestionForm questionSet={set} />;
+      }
+    }
+
+    // Return statement to catch if something went wrong
+    return <h1>You done now</h1>;
+  };
+
   render() {
     return (
       <HashRouter>
         <div>
-          <div>
-            {this.state.numQuestionSets !== 0 ? (
-              this.state.questionSets.map((qset: any) => (
-                <div className="col" key={qset.id}>
-                  <NavLink to={`/question_set/${qset.id}`}>{qset.id}</NavLink>
-                </div>
-              ))
-            ) : (
-              <p>Loading...</p>
-            )}
-          </div>
-          <div>
-            <Route path="/question_set/:setId" component={questionForm} />
-          </div>
+          <Route exact={true} path="/" component={this.dashInfo} />
+          <Route path="/question_set/:setId" render={this.renderQuestionPage} />
         </div>
       </HashRouter>
     );
