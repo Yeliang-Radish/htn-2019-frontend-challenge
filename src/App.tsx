@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import Creator from "./utils/file_generator";
-import { any } from "prop-types";
 
-// interface State {
-//   form: any;
-// }
 class App extends Component {
   state = {
     form: []

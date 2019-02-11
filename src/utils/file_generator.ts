@@ -72,9 +72,9 @@ const Creator = (): any => {
   let formCreator: any[] = [];
   qset.questions.forEach((q: any) => {
     if (q.type === "text") {
-      formCreator.push(TextComponent());
+      formCreator.push(TextComponent(q));
     } else if (q.type === "select") {
-      formCreator.push(LongTextComponent());
+      formCreator.push(LongTextComponent(q));
     } else if (q.type === "longText") {
       formCreator.push(SelectComponent());
     } else {
