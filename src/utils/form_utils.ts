@@ -1,12 +1,25 @@
-import {
-  TextQuestion,
-  LongTextQuestion,
-  SelectQuestion
-} from "./question_interfaces";
+import { Question } from "./question_interfaces";
+import TextComponent from "../components/form_creation/text_component";
+import LongTextComponent from "../components/form_creation/long_text_component";
+import SelectComponent from "../components/form_creation/select_component";
 
-export const questionParser = (
-  question: TextQuestion | LongTextQuestion | SelectQuestion
-) => {
+const questionParser = (qset: Question[]) => {
   // This function takes a question and returns component specific to that question type
-  console.log("type", question.type);
+  let formCreater: any[] = [];
+  qset.forEach((q: Question) => {
+    if (q.type === "text") {
+      formCreater.push(TextComponent(q));
+    } else if (q.type === "longText") {
+      formCreater.push(LongTextComponent(q));
+    } else if (q.type === "select") {
+      formCreater.push(SelectComponent(q));
+    } else {
+      console.log("AEEEERFEFAF");
+    }
+  });
+
+  console.log(formCreater);
+  return formCreater;
 };
+
+export default questionParser;
