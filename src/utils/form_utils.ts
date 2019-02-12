@@ -18,7 +18,7 @@ const questionParser = (qset: Question[]) => {
     }
   });
 
-  console.log(formCreater);
+  // console.log(formCreater);
   return formCreater;
 };
 

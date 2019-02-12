@@ -15,7 +15,7 @@ class Dashboard extends Component {
       let questionSets: ApiResponse = data;
       this.setState({ questionSets });
       this.setState({ numQuestionSets: questionSets.length });
-      console.log(data);
+      // console.log(data);
     });
   }
 
