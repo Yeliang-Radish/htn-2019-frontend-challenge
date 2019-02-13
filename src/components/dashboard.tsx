@@ -3,6 +3,7 @@ import getQuestions from "../utils/question_getter";
 import { ApiResponse, QuestionSet } from "../utils/question_interfaces";
 import { HashRouter, NavLink, Route } from "react-router-dom";
 import QuestionForm from "./question_form";
+import styled from "styled-components";
 
 class Dashboard extends Component {
   state = {
@@ -54,13 +55,18 @@ class Dashboard extends Component {
   render() {
     return (
       <HashRouter>
-        <div>
+        <StyledDashboard>
           <Route exact={true} path="/" component={this.dashInfo} />
+          <Route path="/dashboard" component={this.dashInfo} />
           <Route path="/question_set/:setId" render={this.renderQuestionPage} />
-        </div>
+        </StyledDashboard>
       </HashRouter>
     );
   }
 }
+
+const StyledDashboard = styled.div`
+  margin-top: auto;
+`;
 
 export default Dashboard;
