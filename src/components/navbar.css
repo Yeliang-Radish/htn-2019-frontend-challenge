@@ -1,5 +1,17 @@
-@media only screen and (max-width: 480px) {
+.navbar {
+  background-image: linear-gradient(
+    110deg,
+    rgb(252, 233, 239, 0.9),
+    rgb(233, 252, 252)
+  );
+}
+
+.dash-text {
+  margin: 0 auto;
+}
+
+@media only screen and (max-width: 576px) {
   .corner {
-    visibility: hidden;
+    display: none;
   }
 }

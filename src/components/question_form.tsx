@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { QuestionSet, Question } from "../utils/question_interfaces";
 import questionParser from "../utils/form_utils";
+import styled from "styled-components";
 
 type FormProps = {
   questionSet: QuestionSet;
@@ -66,35 +67,47 @@ export default class QuestionForm extends Component<FormProps, State> {
   render() {
     // return <div>{this.state.form.map((C: any) => C)}</div>;
     return (
-      <Fragment>
+      <QForm>
         <div>{this.state.form[this.state.currentQuestionNum]}</div>
-        <div className="btn-toolbar" role="toolbar">
-          <div className="btn-group" role="group">
-            <button
-              onClick={this.handlePrevClick}
-              type="button"
-              className={`btn btn-${
-                this.questionMaxMin() === -1 ? "secondary" : "primary"
-              }`}
-              {...this.questionMaxMin() === -1 && { disabled: true }}
-            >
-              Previous
-            </button>
-          </div>
-          <div className="btn-group" role="group">
-            <button
-              onClick={this.handleNextClick}
-              type="button"
-              className={`btn btn-${
-                this.questionMaxMin() === 1 ? "secondary" : "primary"
-              }`}
-              {...this.questionMaxMin() === 1 && { disabled: true }}
-            >
-              Next
-            </button>
-          </div>
+        <div>
+          <LeftButton
+            onClick={this.handlePrevClick}
+            type="button"
+            className={`btn btn-${
+              this.questionMaxMin() === -1 ? "secondary" : "primary"
+            }`}
+            {...this.questionMaxMin() === -1 && { disabled: true }}
+          >
+            Prev
+          </LeftButton>
+          <RightButton
+            onClick={this.handleNextClick}
+            type="button"
+            className={`btn btn-${
+              this.questionMaxMin() === 1 ? "secondary" : "primary"
+            }`}
+            {...this.questionMaxMin() === 1 && { disabled: true }}
+          >
+            Next
+          </RightButton>
         </div>
-      </Fragment>
+      </QForm>
     );
   }
 }
+
+const QForm = styled.div`
+  padding: 5vh 7vw 0 7vw;
+`;
+
+const RightButton = styled.button`
+  float: right;
+`;
+
+const LeftButton = styled.button`
+  float: left;
+`;
+
+const ButtonsDiv = styled.div`
+  padding: 0 5vw;
+`;
