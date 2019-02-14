@@ -2,12 +2,24 @@ import React, { Component } from "react";
 import { LongTextQuestion } from "../../utils/question_interfaces";
 import "../animation.css";
 
-const LongTextComponent = (props: LongTextQuestion) => {
+const handleChange = (e: any, updateResponseText: any, id: string) => {
+  updateResponseText(e.target.value, id);
+};
+
+const LongTextComponent = (
+  props: LongTextQuestion,
+  updateResponseText: any
+) => {
   return (
     <form key={props.id} className="slide">
       <div className="form-group">
         <label htmlFor={props.id}>{props.label}</label>
-        <textarea className="form-control" id={props.id} rows={3} />
+        <textarea
+          className="form-control"
+          id={props.id}
+          rows={3}
+          onChange={e => handleChange(e, updateResponseText, props.id)}
+        />
       </div>
     </form>
   );

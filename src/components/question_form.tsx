@@ -3,6 +3,7 @@ import { QuestionSet, Question } from "../utils/question_interfaces";
 import questionParser from "../utils/form_utils";
 import styled from "styled-components";
 import "./animation.css";
+import { NavLink } from "react-router-dom";
 
 type FormProps = {
   questionSet: QuestionSet;
@@ -15,6 +16,8 @@ interface State {
   formLabel: string;
   form: any[];
   currentQuestionNum: number;
+  responses: any[];
+  questionIds: string[];
 }
 
 export default class QuestionForm extends Component<FormProps, State> {
@@ -23,21 +26,37 @@ export default class QuestionForm extends Component<FormProps, State> {
     this.state = {
       questions: this.props.questionSet.questions,
       numQuestions: this.props.questionSet.questions.length,
+      questionIds: this.props.questionSet.questions.map(q => q.id),
       formId: this.props.questionSet.id,
       formLabel: this.props.questionSet.label,
       form: [],
-      currentQuestionNum: 0
+      currentQuestionNum: 0,
+      responses: []
     };
   }
 
   getForm = () => {
-    let form = questionParser(this.state.questions);
+    let form = questionParser(this.state.questions, this.updateResponseText);
     this.setState({ form });
   };
 
   componentDidMount() {
     this.getForm();
+    // Intialize response array
+    let arr: any[] = [];
+    for (let i = 0; i < this.state.numQuestions; i++) {
+      arr.push("");
+    }
+    this.setState({ responses: arr });
   }
+
+  updateResponseText = (text: string, id: string) => {
+    let index = this.state.questionIds.indexOf(id);
+    let { responses } = this.state;
+    responses[index] = text;
+    this.setState({ responses: responses });
+    console.log(responses);
+  };
 
   questionMaxMin = () => {
     // This function tells us if we are at the first question, last question, or other
@@ -80,9 +99,13 @@ export default class QuestionForm extends Component<FormProps, State> {
           {this.questionMaxMin() !== 1 ? (
             <RightButton onClick={this.handleNextClick}>NEXT</RightButton>
           ) : (
-            <RightButton onClick={() => this.props.submit(this.state.formId)}>
-              SUBMIT
-            </RightButton>
+            <NavLink
+              onClick={() => this.props.submit(this.state.formId)}
+              to="/"
+              style={{ textDecoration: "none", color: "white" }}
+            >
+              <RightButton>SAVE</RightButton>
+            </NavLink>
           )}
         </Buttons>
       </QForm>

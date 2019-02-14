@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import { TextQuestion } from "../../utils/question_interfaces";
 import "../animation.css";
 
-const TextComponent = (props: TextQuestion) => {
+const handleChange = (e: any, updateResponseText: any, id: string) => {
+  updateResponseText(e.target.value, id);
+};
+
+const TextComponent = (props: TextQuestion, updateResponseText: any) => {
   return (
     <form key={props.id} className="slide">
       <div className="form-group">
@@ -12,6 +16,7 @@ const TextComponent = (props: TextQuestion) => {
           className="form-control"
           id={props.id}
           placeholder={props.placeholder}
+          onChange={e => handleChange(e, updateResponseText, props.id)}
         />
       </div>
     </form>

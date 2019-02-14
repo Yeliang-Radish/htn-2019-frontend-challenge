@@ -34,13 +34,21 @@ const DashInfo = (props: DashProps) => (
     ) : (
       <p>Loading...</p>
     )}
+    {props.completed.length === props.numQuestionSets ? (
+      <ButtonWrapper>
+        <SubmitButton className="btn btn-primary">Submit</SubmitButton>
+      </ButtonWrapper>
+    ) : (
+      <ButtonWrapper>
+        <SubmitButton disabled className="btn btn-secondary">
+          Submit
+        </SubmitButton>
+      </ButtonWrapper>
+    )}
   </div>
 );
 // rgb(230, 255, 255)
 const SingleSet = styled.div`
-  // background-color: rgb(255, 179, 179);
-  // background: radial-gradient(rgb(248, 100, 100), rgb(212, 151, 215));
-  // background: radial-gradient(rgb(59, 230, 80), rgb(211, 209, 68));
   background: ${(props: any) =>
     props.completed
       ? "radial-gradient(rgb(59, 230, 80), rgb(211, 209, 68));"
@@ -64,6 +72,16 @@ const QuestionsLeft = styled.div`
   text-align: left;
   padding: 7vh 5vw 0;
   text-align: center;
+`;
+
+const ButtonWrapper = styled.div`
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+`;
+
+const SubmitButton = styled.button`
+  box-shadow: 0px 1px 4px rgb(0, 0, 102);
 `;
 
 export default DashInfo;
