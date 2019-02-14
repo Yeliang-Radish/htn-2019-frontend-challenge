@@ -7,13 +7,18 @@ interface DashProps {
   numQuestionSets: number;
   questionSets: ApiResponse;
   changeActive: any;
+  completed: string[];
 }
 
 const DashInfo = (props: DashProps) => (
   <div>
     {props.numQuestionSets !== 0 ? (
       props.questionSets.map((qset: QuestionSet) => (
-        <SingleSet key={qset.id}>
+        <SingleSet
+          completed={props.completed.includes(qset.id)}
+          key={qset.id}
+          className="fadeIn"
+        >
           <NavLink
             to={`/question_set/${qset.id}`}
             className="col"
@@ -22,9 +27,7 @@ const DashInfo = (props: DashProps) => (
             onClick={() => props.changeActive("Form")}
           >
             <QuestionLabel>{qset.label}</QuestionLabel>
-            <QuestionsLeft>
-              {qset.questions.length} Questions Left
-            </QuestionsLeft>
+            <QuestionsLeft>{qset.questions.length} Questions</QuestionsLeft>
           </NavLink>
         </SingleSet>
       ))
@@ -33,11 +36,15 @@ const DashInfo = (props: DashProps) => (
     )}
   </div>
 );
-
+// rgb(230, 255, 255)
 const SingleSet = styled.div`
-  @import url("https://fonts.googleapis.com/css?family=Lato");
-
-  background-color: rgb(230, 255, 255);
+  // background-color: rgb(255, 179, 179);
+  // background: radial-gradient(rgb(248, 100, 100), rgb(212, 151, 215));
+  // background: radial-gradient(rgb(59, 230, 80), rgb(211, 209, 68));
+  background: ${(props: any) =>
+    props.completed
+      ? "radial-gradient(rgb(59, 230, 80), rgb(211, 209, 68));"
+      : "radial-gradient(rgb(248, 100, 100), rgb(212, 151, 215));"}
   margin: 5vh 10vw;
   padding: 0;
   border: 2px solid rgb(128, 191, 255, 0.7);

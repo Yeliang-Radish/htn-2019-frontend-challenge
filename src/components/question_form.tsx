@@ -2,9 +2,11 @@ import React, { Component, Fragment } from "react";
 import { QuestionSet, Question } from "../utils/question_interfaces";
 import questionParser from "../utils/form_utils";
 import styled from "styled-components";
+import "./animation.css";
 
 type FormProps = {
   questionSet: QuestionSet;
+  submit: any;
 };
 interface State {
   questions: Question[];
@@ -35,7 +37,6 @@ export default class QuestionForm extends Component<FormProps, State> {
 
   componentDidMount() {
     this.getForm();
-    // console.log(this.state, "The State");
   }
 
   questionMaxMin = () => {
@@ -54,42 +55,35 @@ export default class QuestionForm extends Component<FormProps, State> {
     if (this.questionMaxMin() !== -1) {
       this.setState({ currentQuestionNum: this.state.currentQuestionNum - 1 });
     }
-    console.log(this.state.currentQuestionNum, "rocks");
   };
 
   handleNextClick = () => {
     if (this.questionMaxMin() !== 1) {
       this.setState({ currentQuestionNum: this.state.currentQuestionNum + 1 });
     }
-    console.log(this.state.currentQuestionNum, "balls");
   };
 
   render() {
-    // return <div>{this.state.form.map((C: any) => C)}</div>;
     return (
       <QForm>
-        <div>{this.state.form[this.state.currentQuestionNum]}</div>
+        <SingleQuestion className="fadeIn">
+          {this.state.form[this.state.currentQuestionNum]}
+        </SingleQuestion>
         <Buttons>
           <LeftButton
             onClick={this.handlePrevClick}
-            type="button"
-            className={`btn btn-${
-              this.questionMaxMin() === -1 ? "secondary" : "primary"
-            }`}
-            {...this.questionMaxMin() === -1 && { disabled: true }}
+            visible={this.questionMaxMin()}
           >
-            Prev
+            PREVIOUS
           </LeftButton>
-          <button
-            onClick={this.handleNextClick}
-            type="button"
-            className={`btn btn-${
-              this.questionMaxMin() === 1 ? "secondary" : "primary"
-            }`}
-            {...this.questionMaxMin() === 1 && { disabled: true }}
-          >
-            Next
-          </button>
+
+          {this.questionMaxMin() !== 1 ? (
+            <RightButton onClick={this.handleNextClick}>NEXT</RightButton>
+          ) : (
+            <RightButton onClick={() => this.props.submit(this.state.formId)}>
+              SUBMIT
+            </RightButton>
+          )}
         </Buttons>
       </QForm>
     );
@@ -97,13 +91,41 @@ export default class QuestionForm extends Component<FormProps, State> {
 }
 
 const QForm = styled.div`
-  padding: 5vh 7vw 0 7vw;
+  margin: 4vh 4vw 0 4vw;
+  // padding: 2vh 3vw 2vh 3vw;
+  background-color: white;
+  border-style: none;
+  border-radius: 2vmax;
+  box-shadow: 0 0 2px 2px rgb(204, 217, 255);
+`;
+
+const SingleQuestion = styled.div`
+  padding: 3vh 5vw 2vh 5vw;
 `;
 
 const Buttons = styled.div`
-  float: right;
+  background-color: rgb(153, 179, 255);
+  border-bottom-right-radius: 2vmax;
+  border-bottom-left-radius: 2vmax;
+  padding-top: 1.5vh;
+  padding-bottom: 1.5vh;
+  user-select: none;
+  color: white;
+  font-family: "Montserrat";
 `;
 
-const LeftButton = styled.button`
-  margin-right: 3vw;
+const LeftButton = styled.div`
+  width: 50%;
+  display: inline-block;
+  text-align: left;
+  padding-left: 5vw;
+  visibility: ${(props: any) => (props.visible === -1 ? "hidden" : "visible")};
+`;
+
+const RightButton = styled.div`
+  width: 50%;
+  text-align: right;
+  display: inline-block;
+  padding-right: 5vw;
+  border-left: 1px solid rgb(153, 102, 255);
 `;

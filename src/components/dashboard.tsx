@@ -11,6 +11,7 @@ class Dashboard extends Component {
   state = {
     questionSets: [], // For each question set, we will have a % completed for them
     numQuestionSets: 0,
+    completedSet: [],
     activeComponent:
       window.location.hash === "#/dashboard" ? "Dashboard" : "Form"
   };
@@ -32,19 +33,26 @@ class Dashboard extends Component {
       numQuestionSets={this.state.numQuestionSets}
       questionSets={this.state.questionSets}
       changeActive={this.changeActive}
+      completed={this.state.completedSet}
     />
   );
+
+  handleSubmit = (setId: string) => {
+    let arr: string[] = this.state.completedSet;
+    arr.push(setId);
+    this.setState({ completedSet: arr });
+  };
 
   renderQuestionPage = (props: any) => {
     for (let i = 0; i < this.state.numQuestionSets; i++) {
       let set: QuestionSet = this.state.questionSets[i];
       if (set.id === props.match.params.setId) {
-        return <QuestionForm questionSet={set} />;
+        return <QuestionForm submit={this.handleSubmit} questionSet={set} />;
       }
     }
 
-    // Return statement to catch if something went wrong
-    return <h1>You done now</h1>;
+    // Return statement when loading component
+    return <h1>Loading...</h1>;
   };
 
   renderNav = () => (

@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { SelectQuestion } from "../../utils/question_interfaces";
+import "../animation.css";
 
 const SelectComponent = (props: SelectQuestion) => {
   return (
-    <form key={props.id}>
+    <form key={props.id} className="slide">
       <div className="form-group">
         <label htmlFor={props.id}>{props.label}</label>
         <select defaultValue="default" className="form-control" id={props.id}>
