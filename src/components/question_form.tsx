@@ -69,7 +69,7 @@ export default class QuestionForm extends Component<FormProps, State> {
     return (
       <QForm>
         <div>{this.state.form[this.state.currentQuestionNum]}</div>
-        <div>
+        <Buttons>
           <LeftButton
             onClick={this.handlePrevClick}
             type="button"
@@ -80,7 +80,7 @@ export default class QuestionForm extends Component<FormProps, State> {
           >
             Prev
           </LeftButton>
-          <RightButton
+          <button
             onClick={this.handleNextClick}
             type="button"
             className={`btn btn-${
@@ -89,8 +89,8 @@ export default class QuestionForm extends Component<FormProps, State> {
             {...this.questionMaxMin() === 1 && { disabled: true }}
           >
             Next
-          </RightButton>
-        </div>
+          </button>
+        </Buttons>
       </QForm>
     );
   }
@@ -100,14 +100,10 @@ const QForm = styled.div`
   padding: 5vh 7vw 0 7vw;
 `;
 
-const RightButton = styled.button`
+const Buttons = styled.div`
   float: right;
 `;
 
 const LeftButton = styled.button`
-  float: left;
-`;
-
-const ButtonsDiv = styled.div`
-  padding: 0 5vw;
+  margin-right: 3vw;
 `;

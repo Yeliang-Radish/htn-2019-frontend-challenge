@@ -1,16 +1,25 @@
 import React, { Component } from "react";
-import Logo from "../static/htn-logo.jpg";
-import styled from "styled-components";
+import Logo from "../static/htn-logo.png";
 import "./navbar.css";
+import { NavLink } from "react-router-dom";
 
-class Navbar extends Component {
+type props = {
+  active: string;
+  changeActive: any;
+};
+
+class Navbar extends Component<props> {
   render() {
     return (
       <header className="navbar">
-        <a className="navbar-brand" href="/">
+        <NavLink
+          onClick={() => this.props.changeActive("Dashboard")}
+          className="navbar-brand"
+          to="/dashboard"
+        >
           <img src={Logo} width="50" height="50" alt="htn logo" />
-        </a>
-        <div className="dash-text nav-item">Dashboard</div>
+        </NavLink>
+        <h2 className="dash-text nav-item">{this.props.active}</h2>
         <div className="corner nav-item">Frontend Challenge</div>
       </header>
     );
