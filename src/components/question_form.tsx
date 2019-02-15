@@ -46,6 +46,10 @@ export default class QuestionForm extends Component<FormProps, State> {
     this.setState({ form });
   };
 
+  getProgress = () => {
+    return (this.state.currentQuestionNum / this.state.responses.length) * 100;
+  };
+
   componentDidMount() {
     this.getForm();
   }
@@ -81,34 +85,71 @@ export default class QuestionForm extends Component<FormProps, State> {
 
   render() {
     return (
-      <QForm>
-        <SingleQuestion className="fadeIn">
-          {this.state.form[this.state.currentQuestionNum]}
-        </SingleQuestion>
-        <Buttons>
-          <LeftButton
-            onClick={this.handlePrevClick}
-            visible={this.questionMaxMin()}
-          >
-            PREVIOUS
-          </LeftButton>
-
-          {this.questionMaxMin() !== 1 ? (
-            <RightButton onClick={this.handleNextClick}>NEXT</RightButton>
-          ) : (
-            <NavLink
-              onClick={() => this.props.submit(this.state.formId)}
-              to="/"
-              style={{ textDecoration: "none", color: "white" }}
+      <Fragment>
+        <ProgressBarContainer>
+          <ProgressBarOuter>
+            <InnerBar progress={this.getProgress} />
+          </ProgressBarOuter>
+        </ProgressBarContainer>
+        <QForm>
+          <SingleQuestion className="fadeIn">
+            {this.state.form[this.state.currentQuestionNum]}
+          </SingleQuestion>
+          <Buttons>
+            <LeftButton
+              onClick={this.handlePrevClick}
+              visible={this.questionMaxMin()}
             >
-              <RightButton>SAVE</RightButton>
-            </NavLink>
-          )}
-        </Buttons>
-      </QForm>
+              PREVIOUS
+            </LeftButton>
+
+            {this.questionMaxMin() !== 1 ? (
+              <RightButton onClick={this.handleNextClick}>NEXT</RightButton>
+            ) : (
+              <NavLink
+                onClick={() => this.props.submit(this.state.formId)}
+                to="/"
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                <RightButton>SAVE</RightButton>
+              </NavLink>
+            )}
+          </Buttons>
+        </QForm>
+      </Fragment>
     );
   }
 }
+
+const ProgressBarContainer = styled.div`
+  margin: 4vh auto;
+  width: 75vw;
+  text-align: center;
+`;
+
+const ProgressBarOuter = styled.div`
+  padding: 6px;
+  border-radius: 30px;
+  background: rgba(0, 0, 0, 0.25);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25),
+    0 1px rgba(255, 255, 255, 0.08);
+  width: 100%;
+  background-color: #ef476f;
+`;
+
+const InnerBar = styled.div`
+  height: 18px;
+  border-radius: 30px;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.05)
+  );
+  transition: 0.4s linear;
+  transition-property: width, background-color;
+  width: ${(props: any) => props.progress}%;
+  background-color: #ef5b7d;
+`;
 
 const QForm = styled.div`
   margin: 4vh 4vw 0 4vw;
@@ -131,7 +172,7 @@ const Buttons = styled.div`
   padding-bottom: 1.5vh;
   user-select: none;
   color: white;
-  font-family: "Montserrat";
+  font-family: "Montserrat", sans-serif;
 `;
 
 const LeftButton = styled.div`
