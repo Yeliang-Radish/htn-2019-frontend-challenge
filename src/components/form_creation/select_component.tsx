@@ -2,12 +2,25 @@ import React, { Component } from "react";
 import { SelectQuestion } from "../../utils/question_interfaces";
 import "../animation.css";
 
-const SelectComponent = (props: SelectQuestion) => {
+const handleChange = (e: any, updateResponseText: any, id: string) => {
+  updateResponseText(e.target.value, id);
+};
+
+const SelectComponent = (
+  props: SelectQuestion,
+  updateResponseText: any,
+  val: string
+) => {
   return (
     <form key={props.id} className="slide">
       <div className="form-group">
         <label htmlFor={props.id}>{props.label}</label>
-        <select defaultValue="default" className="form-control" id={props.id}>
+        <select
+          onChange={e => handleChange(e, updateResponseText, props.id)}
+          defaultValue={val === "" ? "default" : val}
+          className="form-control"
+          id={props.id}
+        >
           <option value="default" disabled>
             Select Answer
           </option>

@@ -8,7 +8,8 @@ const handleChange = (e: any, updateResponseText: any, id: string) => {
 
 const LongTextComponent = (
   props: LongTextQuestion,
-  updateResponseText: any
+  updateResponseText: any,
+  val: string
 ) => {
   return (
     <form key={props.id} className="slide">
@@ -19,6 +20,7 @@ const LongTextComponent = (
           id={props.id}
           rows={3}
           onChange={e => handleChange(e, updateResponseText, props.id)}
+          {...(val === "" ? {} : { defaultValue: val })}
         />
       </div>
     </form>

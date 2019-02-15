@@ -8,29 +8,49 @@ interface DashProps {
   questionSets: ApiResponse;
   changeActive: any;
   completed: string[];
+  responses: any[];
 }
+
+const questionsLeft = (res: string[]) => {
+  let count = 0;
+  res.forEach((r: string) => {
+    if (r === "") {
+      count++;
+    }
+  });
+  return count;
+};
 
 const DashInfo = (props: DashProps) => (
   <div>
     {props.numQuestionSets !== 0 ? (
-      props.questionSets.map((qset: QuestionSet) => (
-        <SingleSet
-          completed={props.completed.includes(qset.id)}
-          key={qset.id}
-          className="fadeIn"
-        >
-          <NavLink
-            to={`/question_set/${qset.id}`}
-            className="col"
-            // Styled components don't work on this
-            style={{ textDecoration: "none" }}
-            onClick={() => props.changeActive("Form")}
+      props.questionSets.map((qset: QuestionSet) => {
+        let index: number = props.questionSets
+          .map((q: any) => q.id)
+          .indexOf(qset.id);
+        return (
+          <SingleSet
+            completed={!questionsLeft(props.responses[index])}
+            key={qset.id}
+            className="fadeIn"
           >
-            <QuestionLabel>{qset.label}</QuestionLabel>
-            <QuestionsLeft>{qset.questions.length} Questions</QuestionsLeft>
-          </NavLink>
-        </SingleSet>
-      ))
+            <NavLink
+              to={`/question_set/${qset.id}`}
+              className="col"
+              // Styled components don't work on this
+              style={{ textDecoration: "none" }}
+              onClick={() => props.changeActive("Form")}
+            >
+              <QuestionLabel>{qset.label}</QuestionLabel>
+              <QuestionsLeft>
+                {questionsLeft(props.responses[index]) === 0
+                  ? "Completed"
+                  : questionsLeft(props.responses[index]) + " Questions Left"}
+              </QuestionsLeft>
+            </NavLink>
+          </SingleSet>
+        );
+      })
     ) : (
       <p>Loading...</p>
     )}

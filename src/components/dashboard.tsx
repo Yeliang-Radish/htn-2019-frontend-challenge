@@ -13,7 +13,8 @@ class Dashboard extends Component {
     numQuestionSets: 0,
     completedSet: [],
     activeComponent:
-      window.location.hash === "#/dashboard" ? "Dashboard" : "Form"
+      window.location.hash === "#/dashboard" ? "Dashboard" : "Form",
+    responses: []
   };
 
   componentDidMount() {
@@ -21,21 +22,54 @@ class Dashboard extends Component {
       let questionSets: ApiResponse = data;
       this.setState({ questionSets });
       this.setState({ numQuestionSets: questionSets.length });
+
+      let res: any[] = [];
+      questionSets.forEach((set: QuestionSet) => {
+        let arr: any[] = [];
+        for (let i = 0; i < set.questions.length; i++) {
+          arr.push("");
+        }
+        res.push(arr);
+      });
+      this.setState({ responses: res });
     });
   }
+
+  updateResponse = (text: string, id: string, setId: string) => {
+    let index: number = this.state.questionSets
+      .map((q: any) => q.id)
+      .indexOf(setId);
+    let responses: any = this.state.responses[index];
+    // @ts-ignore
+    let changeIndex: number = this.state.questionSets[index].questions
+      .map((q: any) => q.id)
+      .indexOf(id);
+
+    responses[changeIndex] = text;
+    let finalState: any = this.state.responses;
+    finalState[index] = responses;
+
+    this.setState({ responses: finalState });
+  };
 
   changeActive = (component: string) => {
     this.setState({ activeComponent: component });
   };
 
-  dashInfo = () => (
-    <DashInfo
-      numQuestionSets={this.state.numQuestionSets}
-      questionSets={this.state.questionSets}
-      changeActive={this.changeActive}
-      completed={this.state.completedSet}
-    />
-  );
+  dashInfo = () => {
+    if (this.state.responses.length !== 0) {
+      return (
+        <DashInfo
+          numQuestionSets={this.state.numQuestionSets}
+          questionSets={this.state.questionSets}
+          changeActive={this.changeActive}
+          completed={this.state.completedSet}
+          responses={this.state.responses}
+        />
+      );
+    }
+    return <h2>Loading...</h2>;
+  };
 
   handleSubmit = (setId: string) => {
     let arr: string[] = this.state.completedSet;
@@ -48,10 +82,19 @@ class Dashboard extends Component {
   };
 
   renderQuestionPage = (props: any) => {
-    for (let i = 0; i < this.state.numQuestionSets; i++) {
-      let set: QuestionSet = this.state.questionSets[i];
-      if (set.id === props.match.params.setId) {
-        return <QuestionForm submit={this.handleSubmit} questionSet={set} />;
+    if (this.state.responses.length !== 0) {
+      for (let i = 0; i < this.state.numQuestionSets; i++) {
+        let set: QuestionSet = this.state.questionSets[i];
+        if (set.id === props.match.params.setId) {
+          return (
+            <QuestionForm
+              updateResponse={this.updateResponse}
+              submit={this.handleSubmit}
+              questionSet={set}
+              responses={this.state.responses[i]}
+            />
+          );
+        }
       }
     }
 

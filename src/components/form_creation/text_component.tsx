@@ -6,7 +6,11 @@ const handleChange = (e: any, updateResponseText: any, id: string) => {
   updateResponseText(e.target.value, id);
 };
 
-const TextComponent = (props: TextQuestion, updateResponseText: any) => {
+const TextComponent = (
+  props: TextQuestion,
+  updateResponseText: any,
+  val: string
+) => {
   return (
     <form key={props.id} className="slide">
       <div className="form-group">
@@ -17,6 +21,7 @@ const TextComponent = (props: TextQuestion, updateResponseText: any) => {
           id={props.id}
           placeholder={props.placeholder}
           onChange={e => handleChange(e, updateResponseText, props.id)}
+          {...(val === "" ? {} : { defaultValue: val })}
         />
       </div>
     </form>

@@ -8,6 +8,8 @@ import { NavLink } from "react-router-dom";
 type FormProps = {
   questionSet: QuestionSet;
   submit: any;
+  updateResponse: any;
+  responses: string[];
 };
 interface State {
   questions: Question[];
@@ -31,31 +33,26 @@ export default class QuestionForm extends Component<FormProps, State> {
       formLabel: this.props.questionSet.label,
       form: [],
       currentQuestionNum: 0,
-      responses: []
+      responses: this.props.responses
     };
   }
 
   getForm = () => {
-    let form = questionParser(this.state.questions, this.updateResponseText);
+    let form = questionParser(
+      this.state.questions,
+      this.updateResponseText,
+      this.state.responses
+    );
     this.setState({ form });
   };
 
   componentDidMount() {
     this.getForm();
-    // Intialize response array
-    let arr: any[] = [];
-    for (let i = 0; i < this.state.numQuestions; i++) {
-      arr.push("");
-    }
-    this.setState({ responses: arr });
   }
 
   updateResponseText = (text: string, id: string) => {
-    let index = this.state.questionIds.indexOf(id);
-    let { responses } = this.state;
-    responses[index] = text;
-    this.setState({ responses: responses });
-    console.log(responses);
+    // Sloppiest code of my life, but I gotta bring up the state
+    this.props.updateResponse(text, id, this.state.formId);
   };
 
   questionMaxMin = () => {
