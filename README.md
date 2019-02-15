@@ -1,48 +1,48 @@
 # Hack the North 2019 Frontend Coding Challenge
 
-Holy Hell it took me a while to get react-router-dom working
+Hello there friends from far and wide, welcome to the spectacular trainwreck city of the whimsys and the radishes.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
+## Getting Started
 
 In the project directory, you can run:
 
-### `npm start`
+### `yarn install`
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+To install all the depedencies.
+Then you can run
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+### `yarn start`
 
-### `npm test`
+To start the app at http://localhost:3000
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Product Vision and Design
 
-### `npm run build`
+### Difficulties
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+While I was creating this page, I experienced the very situation described in my application -- development speed vs code quality. <br>
+As I neared the deadline for this submissions came up, I opted to prioritize speed and functionality over quality.<br>
+You can tell how the quality of code dropped in the last few commits, how I stopped defining typescript interfaces in favour of 'best waifu' type 'any', and didn't bother defining types for a lot of React-specific code. I was familiar with typescript before, but gee whiz, if I didn't want to shoot myself from all the errors it gave me.<br>
+Also towards the end, the structure of the application started falling apart, much to do with the lack of foresight on my part from the beginning of the app.<br>
+And my eyes started to bleed from the css so, there's that.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+### What we got
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+During development, I focused on a mobile-first experience, written with typescript and react. <br>
+It's a pretty standard app, where you can click on the question set and list the questions to answer.
 
-### `npm run eject`
+### Extending the App
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+To extend the app, there's a lot of stuff I could do:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Use local data storage to keep the form data after refresh.
+- Use a backend db to store form data per user.
+- Add form validators to ensure data is correct.
+- Add more question types. The way my code is structured, adding more types should be trivial.
+- Restructure code for more developer clarity. Heck, even I got confused with where some of my code was.
+- Loading circle things.
+- Modals for form save and submission confirmation
+- Create user accounts.
+- Select and list which question you want to answer from sidebar.
+- Store some properties in component state instead of recalculating each time.
+- Start loading in data before components render.<br>
+  To be blunt, I wuould only use this application as a reference when developing applications at Hack the North. The code isn't clean enough to copy paste, but it would serve as a good reference for future development.
