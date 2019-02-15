@@ -13,7 +13,9 @@ class Dashboard extends Component {
     numQuestionSets: 0,
     completedSet: [],
     activeComponent:
-      window.location.hash === "#/dashboard" ? "Dashboard" : "Form",
+      window.location.hash === "#/dashboard" || window.location.hash === "#/"
+        ? "Dashboard"
+        : "Form",
     responses: []
   };
 
@@ -92,6 +94,7 @@ class Dashboard extends Component {
               submit={this.handleSubmit}
               questionSet={set}
               responses={this.state.responses[i]}
+              changeActive={this.changeActive}
             />
           );
         }

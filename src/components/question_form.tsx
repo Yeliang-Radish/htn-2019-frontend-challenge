@@ -10,6 +10,7 @@ type FormProps = {
   submit: any;
   updateResponse: any;
   responses: string[];
+  changeActive: any;
 };
 interface State {
   questions: Question[];
@@ -107,7 +108,10 @@ export default class QuestionForm extends Component<FormProps, State> {
               <RightButton onClick={this.handleNextClick}>NEXT</RightButton>
             ) : (
               <NavLink
-                onClick={() => this.props.submit(this.state.formId)}
+                onClick={() => {
+                  this.props.submit(this.state.formId);
+                  this.props.changeActive("Dashboard");
+                }}
                 to="/"
                 style={{ textDecoration: "none", color: "white" }}
               >
